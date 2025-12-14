@@ -1,0 +1,117 @@
+
+local_nobles_tax_share = {
+    add = num_pop_type:nobles
+    multiply = 150
+}
+
+local_clergy_tax_share = {
+    add = num_pop_type:clergy
+    multiply = 25
+}
+
+local_burghers_tax_share = {
+    add = num_pop_type:burghers
+    multiply = 20
+}
+
+local_commoner_population = {
+    add = num_pop_type:laborers
+    add = num_pop_type:peasants
+    add = num_pop_type:soldiers
+}
+
+local_commoner_tax_share = {
+    add = local_commoner_population
+    multiply = 1
+}
+
+local_tribesmen_tax_share = {
+    add = num_pop_type:tribesmen
+    multiply = 0.1
+}
+
+local_total_tax_share = {
+    add = local_nobles_tax_share
+    add = local_clergy_tax_share
+    add = local_burghers_tax_share
+    add = local_commoner_tax_share
+    add = local_tribesmen_tax_share
+}
+
+local_gdp = {
+    add = location_tax_base
+	divide = local_effective_control
+}
+
+local_noble_gdp_per_capita = {
+    add = local_nobles_tax_share
+    divide = local_total_tax_share
+	multiply = local_gdp
+    divide = num_pop_type:nobles
+    add = 0.1
+}
+
+local_clergy_gdp_per_capita = {
+    add = local_clergy_tax_share
+    divide = local_total_tax_share
+	multiply = local_gdp
+    divide = num_pop_type:clergy
+    add = 0.1
+}
+
+local_burghers_gdp_per_capita = {
+    add = local_burghers_tax_share
+    divide = local_total_tax_share
+	multiply = local_gdp
+    divide = num_pop_type:burghers
+    add = 0.1
+}
+
+local_commoner_gdp_per_capita = {
+    add = local_commoner_tax_share
+    divide = local_total_tax_share
+	multiply = local_gdp
+    divide = local_commoner_population
+    add = .1
+}
+
+local_tribesmen_gdp_per_capita = {
+    add = local_tribesmen_tax_share
+    divide = local_total_tax_share
+	multiply = local_gdp
+    divide = num_pop_type:tribesmen
+    add = .1
+}
+
+gdp_per_capita_scale = {
+	value = 1
+	# scale with GDP per capita
+	if = {
+		limit = { pop_type = pop_type:nobles }
+		multiply = location.local_noble_gdp_per_capita
+	}
+	else_if = {
+		limit = { pop_type = pop_type:clergy }
+		multiply = location.local_clergy_gdp_per_capita
+	}
+	else_if = {
+		limit = { pop_type = pop_type:burghers }
+		multiply = location.local_burghers_gdp_per_capita
+	}
+	else_if = {
+		limit = { pop_type = pop_type:laborers }
+		multiply = location.local_commoner_gdp_per_capita
+	}
+    else_if = {
+        limit = { pop_type = pop_type:soldiers }
+        multiply = location.local_commoner_gdp_per_capita
+    }
+	else_if = {
+		limit = { pop_type = pop_type:peasants }
+		multiply = location.local_commoner_gdp_per_capita
+	}
+	else_if = {
+		limit = { pop_type = pop_type:tribesmen }
+		multiply = location.local_tribesmen_gdp_per_capita
+	}
+}

@@ -1,0 +1,11 @@
+﻿{
+	"name":	"eu5mod_better_demands",
+	"id":	"eu5mod_better_demands.mymod",
+	"version":	"1.0",
+	"supported_game_version":	"1.0.9",
+	"short_description":	"Better demands and demand scaling",
+	"tags":	["Trade and Economics"],
+	"relationships":	[],
+	"game_custom_data":	{
+}
+}
