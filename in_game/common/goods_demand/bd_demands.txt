@@ -57,6 +57,10 @@ REPLACE:pop_demand = {
 				desc = "POP_DEMAND_TOPOGRAPHY_MOUNTAINS"
 			}
 		}
+
+		multiply = {
+			value = tax_base_per_capita_necessities_multiplier
+		}
 		
 	}
 
@@ -101,6 +105,10 @@ REPLACE:pop_demand = {
 				desc = "POP_DEMAND_TOPOGRAPHY_MOUNTAINS"
 			}
 		}
+
+		multiply = {
+			value = tax_base_per_capita_necessities_multiplier
+		}
 	}
 
 	cloth = {
@@ -137,6 +145,10 @@ REPLACE:pop_demand = {
 				}
 			}
 		}
+
+		multiply = {
+			value = tax_base_per_capita_necessities_multiplier
+		}
 	}
 	
 	potato = {
@@ -158,6 +170,10 @@ REPLACE:pop_demand = {
 				value = 0
 				desc = "POP_DEMAND_JAIN"
 			}
+		}
+
+		multiply = {
+			value = tax_base_per_capita_necessities_multiplier
 		}
 	}		
 
@@ -185,6 +201,9 @@ REPLACE:pop_demand = {
 			}
 		}
 
+		multiply = {
+			value = tax_base_per_capita_necessities_multiplier
+		}
 	}	
 	
 	millet = {
@@ -243,6 +262,9 @@ REPLACE:pop_demand = {
 			}
 		}
 
+		multiply = {
+			value = tax_base_per_capita_necessities_multiplier
+		}
 	}	
 		
 	fish = {
@@ -275,6 +297,10 @@ REPLACE:pop_demand = {
 				value = 0.5
 				desc = "POP_DEMAND_EGYPT"
 			}
+		}
+
+		multiply = {
+			value = tax_base_per_capita_necessities_multiplier
 		}
 	}
 	
@@ -331,6 +357,10 @@ REPLACE:pop_demand = {
 				value = 1.2
 				desc = "POP_DEMAND_BALTIC"
 			}
+		}
+
+		multiply = {
+			value = tax_base_per_capita_necessities_multiplier
 		}
 	}
 
@@ -390,6 +420,10 @@ REPLACE:pop_demand = {
 			}
 		}
 
+		multiply = {
+			value = tax_base_per_capita_necessities_multiplier
+		}
+
 	}
 	
 	rice = {
@@ -432,6 +466,10 @@ REPLACE:pop_demand = {
 				
 				desc = "POP_DEMAND_LOCAL_CUISINE"
 			}
+		}
+
+		multiply = {
+			value = tax_base_per_capita_necessities_multiplier
 		}
 
 	}
@@ -528,6 +566,10 @@ REPLACE:pop_demand = {
 				value = 0
 				desc = "POP_DEMAND_PESCATARIANISM"
 			}
+		}
+
+		multiply = {
+			value = tax_base_per_capita_necessities_multiplier
 		}
 	}
 
@@ -946,8 +988,7 @@ REPLACE:pop_demand = {
 		}
 
 		multiply = {
-			value = gdp_per_capita_scale
-			desc = "POP_GDP_PER_CAPITA_SCALE"
+			value = tax_base_per_capita_addictives_multiplier
 		}
 		
 	}
@@ -1039,8 +1080,7 @@ REPLACE:pop_demand = {
 		}
 
 		multiply = {
-			value = gdp_per_capita_scale
-			desc = "POP_GDP_PER_CAPITA_SCALE"
+			value = tax_base_per_capita_addictives_multiplier
 		}
 	}
 
@@ -1111,8 +1151,7 @@ REPLACE:pop_demand = {
 		}
 
 		multiply = {
-			value = gdp_per_capita_scale
-			desc = "POP_GDP_PER_CAPITA_SCALE"
+			value = tax_base_per_capita_addictives_multiplier
 		}
 	}
 	

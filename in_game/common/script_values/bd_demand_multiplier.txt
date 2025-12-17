@@ -1,117 +1,307 @@
 
-local_nobles_tax_share = {
+nobles_tax_share = {
     add = num_pop_type:nobles
     multiply = 150
 }
 
-local_clergy_tax_share = {
+clergy_tax_share = {
     add = num_pop_type:clergy
     multiply = 25
 }
 
-local_burghers_tax_share = {
+burghers_tax_share = {
     add = num_pop_type:burghers
     multiply = 20
 }
 
-local_commoner_population = {
+commoners_population = {
     add = num_pop_type:laborers
     add = num_pop_type:peasants
     add = num_pop_type:soldiers
 }
 
-local_commoner_tax_share = {
-    add = local_commoner_population
+commoners_tax_share = {
+    add = commoners_population
     multiply = 1
 }
 
-local_tribesmen_tax_share = {
+tribesmen_tax_share = {
     add = num_pop_type:tribesmen
     multiply = 0.1
 }
 
-local_total_tax_share = {
-    add = local_nobles_tax_share
-    add = local_clergy_tax_share
-    add = local_burghers_tax_share
-    add = local_commoner_tax_share
-    add = local_tribesmen_tax_share
+total_tax_share = {
+    add = nobles_tax_share
+    add = clergy_tax_share
+    add = burghers_tax_share
+    add = commoners_tax_share
+    add = tribesmen_tax_share
 }
 
-local_gdp = {
+potential_tax_base = {
     add = location_tax_base
-	divide = local_effective_control
+	divide = local_control
+    min = 0.01
 }
 
-local_noble_gdp_per_capita = {
-    add = local_nobles_tax_share
-    divide = local_total_tax_share
-	multiply = local_gdp
+nobles_tax_base_per_capita = {
+    add = nobles_tax_share
+    divide = total_tax_share
+	multiply = potential_tax_base
     divide = num_pop_type:nobles
-    add = 0.1
 }
 
-local_clergy_gdp_per_capita = {
-    add = local_clergy_tax_share
-    divide = local_total_tax_share
-	multiply = local_gdp
+clergy_tax_base_per_capita = {
+    add = clergy_tax_share
+    divide = total_tax_share
+	multiply = potential_tax_base
     divide = num_pop_type:clergy
-    add = 0.1
 }
 
-local_burghers_gdp_per_capita = {
-    add = local_burghers_tax_share
-    divide = local_total_tax_share
-	multiply = local_gdp
+burghers_tax_base_per_capita = {
+    add = burghers_tax_share
+    divide = total_tax_share
+	multiply = potential_tax_base
     divide = num_pop_type:burghers
-    add = 0.1
 }
 
-local_commoner_gdp_per_capita = {
-    add = local_commoner_tax_share
-    divide = local_total_tax_share
-	multiply = local_gdp
-    divide = local_commoner_population
-    add = .1
+commoners_tax_base_per_capita = {
+    add = commoners_tax_share
+    divide = total_tax_share
+	multiply = potential_tax_base
+    divide = commoners_population
 }
 
-local_tribesmen_gdp_per_capita = {
-    add = local_tribesmen_tax_share
-    divide = local_total_tax_share
-	multiply = local_gdp
+tribesmen_tax_base_per_capita = {
+    add = tribesmen_tax_share
+    divide = total_tax_share
+	multiply = potential_tax_base
     divide = num_pop_type:tribesmen
-    add = .1
 }
 
-gdp_per_capita_scale = {
-	value = 1
-	# scale with GDP per capita
+tax_base_per_capita_necessities_multiplier = {
+    value = 1
 	if = {
 		limit = { pop_type = pop_type:nobles }
-		multiply = location.local_noble_gdp_per_capita
+		multiply = location.nobles_tax_base_per_capita
+        multiply = 0.1
+        max = 0.25
+        add = 2.875
 	}
 	else_if = {
 		limit = { pop_type = pop_type:clergy }
-		multiply = location.local_clergy_gdp_per_capita
+        if = {
+            limit = { location.clergy_tax_base_per_capita > 1.275 }
+            multiply = location.clergy_tax_base_per_capita
+            subtract = 1.275
+            multiply = 0.1
+            max = 0.25
+            add = 2.875
+        } else = {
+            multiply = location.clergy_tax_base_per_capita
+            add = 1
+        }
 	}
 	else_if = {
 		limit = { pop_type = pop_type:burghers }
-		multiply = location.local_burghers_gdp_per_capita
+		if = {
+            limit = { location.burghers_tax_base_per_capita > 1.275 }
+            multiply = location.burghers_tax_base_per_capita
+            subtract = 1.275
+            multiply = 0.1
+            max = 0.25
+            add = 2.875
+        } else = {
+            multiply = location.burghers_tax_base_per_capita
+            add = 1
+        }
 	}
 	else_if = {
-		limit = { pop_type = pop_type:laborers }
-		multiply = location.local_commoner_gdp_per_capita
-	}
-    else_if = {
-        limit = { pop_type = pop_type:soldiers }
-        multiply = location.local_commoner_gdp_per_capita
-    }
-	else_if = {
-		limit = { pop_type = pop_type:peasants }
-		multiply = location.local_commoner_gdp_per_capita
+		limit = { 
+            OR = {
+			    pop_type = pop_type:laborers
+			    pop_type = pop_type:soldiers
+                pop_type = pop_type:peasants
+		    } 
+        }
+        if = {
+            limit = { location.commoners_tax_base_per_capita > 1.275 }
+            multiply = location.commoners_tax_base_per_capita
+            subtract = 1.275
+            multiply = 0.1
+            max = 0.25
+            add = 2.875
+        } else_if = {
+            limit = { location.commoners_tax_base_per_capita > 0.025 }
+            multiply = location.commoners_tax_base_per_capita
+            add = 1.225
+        } else = {
+            multiply = location.commoners_tax_base_per_capita
+            multiply = 10
+            add = 1
+        }
 	}
 	else_if = {
 		limit = { pop_type = pop_type:tribesmen }
-		multiply = location.local_tribesmen_gdp_per_capita
+		add = location.tribesmen_tax_base_per_capita
+	}
+}
+
+tax_base_per_capita_nice_to_haves_multiplier = {
+	value = 1
+	if = {
+		limit = { pop_type = pop_type:nobles }
+		multiply = location.nobles_tax_base_per_capita
+	}
+	else_if = {
+		limit = { pop_type = pop_type:clergy }
+		multiply = location.clergy_tax_base_per_capita
+	}
+	else_if = {
+		limit = { pop_type = pop_type:burghers }
+		multiply = location.burghers_tax_base_per_capita
+	}
+	else_if = {
+		limit = { pop_type = pop_type:laborers }
+		multiply = location.commoners_tax_base_per_capita
+	}
+    else_if = {
+        limit = { pop_type = pop_type:soldiers }
+        multiply = location.commoners_tax_base_per_capita
+    }
+	else_if = {
+		limit = { pop_type = pop_type:peasants }
+		multiply = location.commoners_tax_base_per_capita
+	}
+	else_if = {
+		limit = { pop_type = pop_type:tribesmen }
+		multiply = location.tribesmen_tax_base_per_capita
+	}
+}
+
+tax_base_per_capita_addictives_multiplier = {
+	value = 1
+	if = {
+		limit = { pop_type = pop_type:nobles }
+		multiply = location.nobles_tax_base_per_capita
+	}
+	else_if = {
+		limit = { pop_type = pop_type:clergy }
+		multiply = location.clergy_tax_base_per_capita
+	}
+	else_if = {
+		limit = { pop_type = pop_type:burghers }
+		multiply = location.burghers_tax_base_per_capita
+	}
+	else_if = {
+		limit = { pop_type = pop_type:laborers }
+		multiply = location.commoners_tax_base_per_capita
+	}
+    else_if = {
+        limit = { pop_type = pop_type:soldiers }
+        multiply = location.commoners_tax_base_per_capita
+    }
+	else_if = {
+		limit = { pop_type = pop_type:peasants }
+		multiply = location.commoners_tax_base_per_capita
+	}
+	else_if = {
+		limit = { pop_type = pop_type:tribesmen }
+		multiply = location.tribesmen_tax_base_per_capita
+	}
+}
+
+tax_base_per_capita_luxuries_multiplier = {
+	value = 1
+	if = {
+		limit = { pop_type = pop_type:nobles }
+		multiply = location.nobles_tax_base_per_capita
+	}
+	else_if = {
+		limit = { pop_type = pop_type:clergy }
+		multiply = location.clergy_tax_base_per_capita
+	}
+	else_if = {
+		limit = { pop_type = pop_type:burghers }
+		multiply = location.burghers_tax_base_per_capita
+	}
+	else_if = {
+		limit = { pop_type = pop_type:laborers }
+		multiply = location.commoners_tax_base_per_capita
+	}
+    else_if = {
+        limit = { pop_type = pop_type:soldiers }
+        multiply = location.commoners_tax_base_per_capita
+    }
+	else_if = {
+		limit = { pop_type = pop_type:peasants }
+		multiply = location.commoners_tax_base_per_capita
+	}
+	else_if = {
+		limit = { pop_type = pop_type:tribesmen }
+		multiply = location.tribesmen_tax_base_per_capita
+	}
+}
+
+tax_base_per_capita_super_luxeries_multiplier = {
+	value = 1
+	if = {
+		limit = { pop_type = pop_type:nobles }
+		multiply = location.nobles_tax_base_per_capita
+	}
+	else_if = {
+		limit = { pop_type = pop_type:clergy }
+		multiply = location.clergy_tax_base_per_capita
+	}
+	else_if = {
+		limit = { pop_type = pop_type:burghers }
+		multiply = location.burghers_tax_base_per_capita
+	}
+	else_if = {
+		limit = { pop_type = pop_type:laborers }
+		multiply = location.commoners_tax_base_per_capita
+	}
+    else_if = {
+        limit = { pop_type = pop_type:soldiers }
+        multiply = location.commoners_tax_base_per_capita
+    }
+	else_if = {
+		limit = { pop_type = pop_type:peasants }
+		multiply = location.commoners_tax_base_per_capita
+	}
+	else_if = {
+		limit = { pop_type = pop_type:tribesmen }
+		multiply = location.tribesmen_tax_base_per_capita
+	}
+}
+
+tax_base_per_capita_spices_multiplier = {
+	if = {
+		limit = { pop_type = pop_type:nobles }
+		add = location.nobles_tax_base_per_capita
+	}
+	else_if = {
+		limit = { pop_type = pop_type:clergy }
+		multiply = location.clergy_tax_base_per_capita
+	}
+	else_if = {
+		limit = { pop_type = pop_type:burghers }
+		multiply = location.burghers_tax_base_per_capita
+	}
+	else_if = {
+		limit = { pop_type = pop_type:laborers }
+		multiply = location.commoners_tax_base_per_capita
+	}
+    else_if = {
+        limit = { pop_type = pop_type:soldiers }
+        multiply = location.commoners_tax_base_per_capita
+    }
+	else_if = {
+		limit = { pop_type = pop_type:peasants }
+		multiply = location.commoners_tax_base_per_capita
+	}
+	else_if = {
+		limit = { pop_type = pop_type:tribesmen }
+		multiply = location.tribesmen_tax_base_per_capita
 	}
 }

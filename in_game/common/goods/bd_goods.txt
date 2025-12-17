@@ -15,7 +15,12 @@ REPLACE:coal = {
 	}
 	
 	demand_multiply = {
-		upper = 2.5
+		nobles = 2.5
+		burghers = 1.25
+		clergy = 1.25
+		peasants = 1
+		soldiers = 1
+		laborers = 1
 	}	
 	
 }
@@ -463,7 +468,7 @@ REPLACE:beeswax = {
 }
 
 #########################
-# Alcohol/Tobacco - Very high ceiling
+# Alcohol/Tobacco - Very High ceiling
 #########################
 
 REPLACE:liquor = { 		#What it says
@@ -735,7 +740,7 @@ REPLACE:slaves_goods = {
 }
 
 #########################
-# Super Duper Luxury Goods
+# Super Duper Luxury Goods - Middling ceiling
 #########################
 
 REPLACE:goods_gold = {
@@ -888,7 +893,7 @@ REPLACE:marble = {
 }
 
 ###########################
-# Luxury Foods & Spice - Very high ceiling
+# Luxury Foods & Spice - High ceiling
 ###########################
 
 REPLACE:tea = {
