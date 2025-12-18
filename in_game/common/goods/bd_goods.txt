@@ -1,5 +1,5 @@
 #########################
-# Necessities - has a floor and low ceiling to demand
+# Necessities - has a floor and low ceiling to demand 0-1-2
 #########################
 
 REPLACE:coal = {
@@ -244,7 +244,7 @@ REPLACE:cloth = {		#Daily clothing, Canvas, Uniforms, Course table cloth, etc
 }
 
 #########################
-# Nice to Haves - low ceiling
+# Nice to Haves - low ceiling 1-2
 #########################
 
 REPLACE:salt = {
@@ -468,7 +468,7 @@ REPLACE:beeswax = {
 }
 
 #########################
-# Alcohol/Tobacco - Very High ceiling
+# Alcohol/Tobacco - Very High ceiling 3-4
 #########################
 
 REPLACE:liquor = { 		#What it says
@@ -547,7 +547,7 @@ REPLACE:tobacco = {
 }
 
 #########################
-# Luxury Goods - Middling ceiling
+# Luxury Goods - Middling ceiling 4-5
 #########################
 
 REPLACE:horses = { #War Horses
@@ -740,7 +740,7 @@ REPLACE:slaves_goods = {
 }
 
 #########################
-# Super Duper Luxury Goods - Middling ceiling
+# Super Duper Luxury Goods - Middling ceiling 
 #########################
 
 REPLACE:goods_gold = {
